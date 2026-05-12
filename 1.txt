@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>trivago 旅遊網自動化電子商務創業流程</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Noto Sans TC", "Microsoft JhengHei", Arial, sans-serif;
+      background: #f4f8fb;
+      color: #1f2937;
+      line-height: 1.7;
+    }
+
+    header {
+      background: linear-gradient(135deg, #0077c8, #00a6d6, #ffb703);
+      color: white;
+      padding: 72px 20px 56px;
+      text-align: center;
+    }
+
+    header .badge {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.22);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      padding: 8px 18px;
+      border-radius: 999px;
+      font-size: 14px;
+      margin-bottom: 18px;
+    }
+
+    header h1 {
+      font-size: clamp(32px, 5vw, 58px);
+      margin-bottom: 18px;
+      letter-spacing: 1px;
+    }
+
+    header p {
+      max-width: 850px;
+      margin: 0 auto 28px;
+      font-size: 18px;
+      opacity: 0.95;
+    }
+
+    .hero-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 13px 24px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 700;
+      transition: 0.25s ease;
+    }
+
+    .btn-primary {
+      background: #ffffff;
+      color: #0077c8;
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.55);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 3px 18px rgba(15, 23, 42, 0.08);
+      padding: 12px 20px;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+
+    nav a {
+      color: #0f6ca8;
+      text-decoration: none;
+      font-weight: 700;
+      margin-right: 20px;
+      font-size: 15px;
+    }
+
+    .container {
+      width: min(1180px, 92%);
+      margin: 0 auto;
+    }
+
+    section {
+      padding: 64px 0;
+    }
+
+    .section-title {
+      margin-bottom: 28px;
+    }
+
+    .section-title span {
+      color: #0077c8;
+      font-weight: 800;
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+
+    .section-title h2 {
+      font-size: clamp(26px, 4vw, 40px);
+      margin-top: 8px;
+      color: #0f172a;
+    }
+
+    .section-title p {
+      max-width: 760px;
+      margin-top: 10px;
+      color: #64748b;
+    }
+
+    .grid {
+      display: grid;
+      gap: 22px;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .grid-4 {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .card {
+      background: white;
+      border-radius: 24px;
+      padding: 26px;
+      box-shadow: 0 14px 40px rgba(15, 23, 42, 0.08);
+      border: 1px solid #e5edf5;
+    }
+
+    .card h3 {
+      color: #0f172a;
+      margin-bottom: 10px;
+      font-size: 22px;
+    }
+
+    .card p,
+    .card li {
+      color: #526173;
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    li {
+      margin-bottom: 8px;
+    }
+
+    .check li::before {
+      content: "✓";
+      color: #008f7a;
+      font-weight: 900;
+      margin-right: 8px;
+    }
+
+    .pain li::before {
+      content: "!";
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      margin-right: 8px;
+      border-radius: 50%;
+      background: #ffedd5;
+      color: #ea580c;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 18px;
+      background: white;
+      box-shadow: 0 14px 40px rgba(15, 23, 42, 0.06);
+    }
+
+    th,
+    td {
+      padding: 16px;
+      border-bottom: 1px solid #e5edf5;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #0077c8;
+      color: white;
+      font-weight: 800;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 14px;
+      margin-top: 22px;
+    }
+
+    .flow-step {
+      background: white;
+      border-radius: 20px;
+      padding: 20px 14px;
+      text-align: center;
+      border: 2px solid #dbeafe;
+      position: relative;
+      font-weight: 800;
+      color: #0f6ca8;
+      min-height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .flow-step:not(:last-child)::after {
+      content: "→";
+      position: absolute;
+      right: -16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #f59e0b;
+      font-size: 24px;
+      z-index: 2;
+    }
+
+    .highlight {
+      background: linear-gradient(135deg, #e0f2fe, #fff7ed);
+      border: 1px solid #bfdbfe;
+    }
+
+    .lead-page {
+      background: white;
+      border-radius: 30px;
+      overflow: hidden;
+      box-shadow: 0 18px 50px rgba(15, 23, 42, 0.1);
+      border: 1px solid #e5edf5;
+    }
+
+    .lead-hero {
+      background: linear-gradient(135deg, #0f6ca8, #12b3d6);
+      color: white;
+      padding: 46px 28px;
+      text-align: center;
+    }
+
+    .lead-hero h3 {
+      font-size: clamp(28px, 4vw, 46px);
+      margin-bottom: 10px;
+    }
+
+    .lead-content {
+      padding: 32px;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 28px;
+      align-items: start;
+    }
+
+    .form-box {
+      background: #f8fafc;
+      padding: 24px;
+      border-radius: 22px;
+      border: 1px solid #e2e8f0;
+    }
+
+    label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: #334155;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px 14px;
+      border-radius: 12px;
+      border: 1px solid #cbd5e1;
+      margin-bottom: 14px;
+      font-size: 15px;
+    }
+
+    button {
+      width: 100%;
+      border: none;
+      padding: 14px;
+      border-radius: 999px;
+      background: #ffb703;
+      color: #1f2937;
+      font-weight: 900;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .sales-card {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sales-card::before {
+      content: "";
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      right: -40px;
+      top: -40px;
+      background: rgba(0, 119, 200, 0.12);
+      border-radius: 50%;
+    }
+
+    .tag {
+      display: inline-block;
+      background: #e0f2fe;
+      color: #0369a1;
+      font-weight: 800;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      margin-bottom: 12px;
+    }
+
+    .email-box,
+    .ad-box {
+      background: #0f172a;
+      color: #e5e7eb;
+      border-radius: 22px;
+      padding: 24px;
+      white-space: pre-line;
+      box-shadow: 0 14px 40px rgba(15, 23, 42, 0.16);
+    }
+
+    .email-box strong,
+    .ad-box strong {
+      color: #ffb703;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 16px;
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 130px 1fr;
+      gap: 18px;
+      align-items: start;
+      background: white;
+      border-radius: 20px;
+      padding: 20px;
+      border: 1px solid #e5edf5;
+    }
+
+    .timeline-item .week {
+      background: #0077c8;
+      color: white;
+      border-radius: 999px;
+      text-align: center;
+      padding: 8px 12px;
+      font-weight: 900;
+    }
+
+    footer {
+      background: #0f172a;
+      color: #cbd5e1;
+      text-align: center;
+      padding: 34px 20px;
+    }
+
+    footer strong {
+      color: #ffb703;
+    }
+
+    @media (max-width: 980px) {
+      .grid-2,
+      .grid-3,
+      .grid-4,
+      .lead-content {
+        grid-template-columns: 1fr;
+      }
+
+      .flow {
+        grid-template-columns: 1fr;
+      }
+
+      .flow-step:not(:last-child)::after {
+        content: "↓";
+        right: 50%;
+        top: auto;
+        bottom: -24px;
+        transform: translateX(50%);
+      }
+
+      .timeline-item {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="badge">自動化電子商務創業設計</div>
+    <h1>trivago 旅遊網自動化銷售漏斗</h1>
+    <p>
+      以旅遊住宿比價平台 trivago 為核心，設計從 TA 分析、免費贈品、名單蒐集頁、自動回覆信、銷售頁到廣告引流的完整創業流程。
+    </p>
+    <div class="hero-buttons">
+      <a href="#flow" class="btn btn-primary">查看完整流程</a>
+      <a href="#lead" class="btn btn-secondary">查看名單蒐集頁</a>
+    </div>
+  </header>
+
+  <nav>
+    <a href="#ta">TA分析</a>
+    <a href="#gift">免費贈品</a>
+    <a href="#lead">名單蒐集頁</a>
+    <a href="#email">自動回覆信</a>
+    <a href="#sales">銷售頁</a>
+    <a href="#ads">廣告文案</a>
+    <a href="#upload">上架流程</a>
+  </nav>
+
+  <main>
+    <section id="flow">
+      <div class="container">
+        <div class="section-title">
+          <span>BUSINESS MODEL</span>
+          <h2>完整自動化電子商務流程</h2>
+          <p>核心邏輯是先用免費內容吸引旅遊族群，再蒐集名單、建立信任，最後導向住宿推薦銷售頁與 trivago 訂房連結。</p>
+        </div>
+        <div class="flow">
+          <div class="flow-step">IG / TikTok / FB 廣告</div>
+          <div class="flow-step">名單蒐集頁</div>
+          <div class="flow-step">免費 Ebook / 影片</div>
+          <div class="flow-step">Email 自動化</div>
+          <div class="flow-step">住宿銷售頁</div>
+          <div class="flow-step">導向 trivago 訂房</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="ta">
+      <div class="container">
+        <div class="section-title">
+          <span>01 TARGET AUDIENCE</span>
+          <h2>針對 trivago 旅遊網進行 TA 分析</h2>
+          <p>此創業模式主打「日本自由行、花火旅遊、小資住宿、情侶旅遊與懶人行程規劃」。</p>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>TA類型</th>
+              <th>年齡</th>
+              <th>主要特徵</th>
+              <th>核心痛點</th>
+              <th>可設計的內容</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>日本自由行族</td>
+              <td>18-35歲</td>
+              <td>喜歡自助旅行、會查攻略</td>
+              <td>不知道哪裡住宿最方便</td>
+              <td>東京、大阪、京都住宿攻略</td>
+            </tr>
+            <tr>
+              <td>花火攝影族</td>
+              <td>20-40歲</td>
+              <td>喜歡日本花火與攝影</td>
+              <td>花火期間房價高、住宿難搶</td>
+              <td>長岡、柏崎、赤川花火住宿專頁</td>
+            </tr>
+            <tr>
+              <td>情侶旅遊族</td>
+              <td>20-35歲</td>
+              <td>重視氛圍、拍照與體驗</td>
+              <td>想找有質感但不太貴的飯店</td>
+              <td>情侶飯店推薦、景觀房整理</td>
+            </tr>
+            <tr>
+              <td>小資學生族</td>
+              <td>18-25歲</td>
+              <td>預算有限、偏好便宜住宿</td>
+              <td>怕訂貴、怕踩雷</td>
+              <td>高CP值住宿清單</td>
+            </tr>
+            <tr>
+              <td>懶人旅遊族</td>
+              <td>25-40歲</td>
+              <td>不想花太多時間做功課</td>
+              <td>希望有人直接整理好</td>
+              <td>懶人包、排行榜、快速比價連結</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="gift">
+      <div class="container">
+        <div class="section-title">
+          <span>02 LEAD MAGNET</span>
+          <h2>免費贈品設計：Ebook 或影片</h2>
+          <p>免費贈品的目標不是直接賣東西，而是用有價值的內容讓使用者願意留下 Email 或 LINE。</p>
+        </div>
+        <div class="grid grid-2">
+          <div class="card highlight">
+            <h3>免費 Ebook：《日本自由行住宿懶人包》</h3>
+            <ul class="check">
+              <li>東京住宿區域分析</li>
+              <li>大阪高CP值飯店推薦</li>
+              <li>日本花火大會住宿攻略</li>
+              <li>如何用 trivago 找到最低價</li>
+              <li>避免踩雷住宿的 5 個技巧</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>免費影片：3分鐘教你用 trivago 找便宜飯店</h3>
+            <ul class="check">
+              <li>示範如何搜尋目的地</li>
+              <li>教使用者比較不同平台價格</li>
+              <li>提醒避開高價時段</li>
+              <li>教使用者看評價與地點</li>
+              <li>最後導向名單頁或銷售頁</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="lead">
+      <div class="container">
+        <div class="section-title">
+          <span>03 LANDING PAGE</span>
+          <h2>名單蒐集頁設計</h2>
+          <p>此頁面的目標是蒐集 Email、LINE 或 IG 追蹤，讓後續能透過自動化流程持續溝通。</p>
+        </div>
+
+        <div class="lead-page">
+          <div class="lead-hero">
+            <h3>免費取得日本住宿省錢攻略</h3>
+            <p>教你用 trivago 找到高CP值住宿，第一次去日本也能快速避開地雷飯店。</p>
+          </div>
+          <div class="lead-content">
+            <div>
+              <h3>你是否也遇過這些問題？</h3>
+              <ul class="pain">
+                <li>飯店價格太高，不知道怎麼比價</li>
+                <li>不知道東京、大阪、京都該住哪一區</li>
+                <li>怕訂到交通不方便或評價很差的住宿</li>
+                <li>花很多時間查資料，最後還是不知道怎麼選</li>
+              </ul>
+              <br />
+              <h3>下載後你會得到：</h3>
+              <ul class="check">
+                <li>日本住宿區域地圖</li>
+                <li>高CP值飯店推薦</li>
+                <li>花火大會住宿攻略</li>
+                <li>trivago 比價技巧</li>
+              </ul>
+            </div>
+            <div class="form-box">
+              <h3>立即免費下載</h3>
+              <p>填寫資料後，自動將 Ebook 寄到你的信箱。</p>
+              <form>
+                <label for="name">姓名</label>
+                <input type="text" id="name" placeholder="請輸入你的姓名" />
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="請輸入你的Email" />
+                <label for="line">LINE ID（選填）</label>
+                <input type="text" id="line" placeholder="方便接收旅遊攻略" />
+                <button type="button">免費取得攻略</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="email">
+      <div class="container">
+        <div class="section-title">
+          <span>04 EMAIL AUTOMATION</span>
+          <h2>自動回覆信設計</h2>
+          <p>使用者留下名單後，系統自動寄送內容，逐步從「領取免費資料」導向「住宿推薦頁」。</p>
+        </div>
+        <div class="grid grid-3">
+          <div class="email-box"><strong>第1封：立即寄送</strong>
+主旨：你的日本住宿攻略來了！
+
+嗨！感謝你下載《日本自由行住宿懶人包》。這份攻略整理了東京住宿、大阪高CP值飯店、花火住宿技巧與 trivago 比價教學。
+
+立即下載：（放 Ebook 連結）</div>
+          <div class="email-box"><strong>第2封：隔1天寄送</strong>
+主旨：很多人訂日本飯店時，都犯了這個錯誤
+
+很多人訂房時，第一個看到價格就直接下訂。但其實不同平台價格可能差很多。建議先透過 trivago 比價，再決定是否下訂。</div>
+          <div class="email-box"><strong>第3封：導向銷售頁</strong>
+主旨：我整理好的日本住宿推薦清單
+
+這次幫你整理東京車站、大阪難波、京都與花火大會住宿區域，每間都附交通、評價、適合族群與比價連結。
+
+查看推薦：（放銷售頁連結）</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="sales">
+      <div class="container">
+        <div class="section-title">
+          <span>05 SALES PAGE</span>
+          <h2>銷售頁設計：3種類別</h2>
+          <p>銷售頁的核心不是硬賣，而是提供整理好的住宿資訊，讓使用者自然點擊 trivago 比價連結。</p>
+        </div>
+        <div class="grid grid-3">
+          <div class="card sales-card">
+            <div class="tag">SEO文章型</div>
+            <h3>2026 東京高CP值住宿推薦</h3>
+            <p>適合透過 Google 搜尋導流，內容包含住宿區域分析、飯店優缺點、交通位置、價格比較與 CTA 按鈕。</p>
+            <ul class="check">
+              <li>上野、新宿、池袋、淺草區域分析</li>
+              <li>每間飯店附評價與適合族群</li>
+              <li>CTA：立即查看最低價</li>
+            </ul>
+          </div>
+          <div class="card sales-card">
+            <div class="tag">短影音導購型</div>
+            <h3>東京這間飯店居然只要 NT$1800？</h3>
+            <p>適合 TikTok、IG Reels 導流，頁面結構為影片、痛點、飯店推薦與比價按鈕。</p>
+            <ul class="check">
+              <li>短影音開頭吸引注意</li>
+              <li>導向精簡銷售頁</li>
+              <li>CTA：點我立即比價</li>
+            </ul>
+          </div>
+          <div class="card sales-card">
+            <div class="tag">花火旅遊專頁</div>
+            <h3>長岡花火住宿攻略</h3>
+            <p>最適合結合你的花火攝影興趣，建立差異化的旅遊內容品牌。</p>
+            <ul class="check">
+              <li>最佳住宿區域</li>
+              <li>車站交通與攝影點</li>
+              <li>建議入住日期與訂房時機</li>
+              <li>CTA：查看花火期間最低房價</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="ads">
+      <div class="container">
+        <div class="section-title">
+          <span>06 TRAFFIC COPYWRITING</span>
+          <h2>廣告引流文案設計</h2>
+          <p>廣告目標是讓使用者進入名單頁，而不是一開始就直接成交。</p>
+        </div>
+        <div class="grid grid-2">
+          <div class="ad-box"><strong>Facebook 廣告文案</strong>
+【日本自由行必看】
+
+你知道很多人訂日本飯店，其實都訂貴了嗎？
+
+我整理了一份《日本住宿省錢攻略》，教你怎麼找到高CP值飯店、怎麼用 trivago 比價、怎麼避免踩雷住宿。
+
+現在免費下載👇</div>
+          <div class="ad-box"><strong>IG / TikTok 短影音文案</strong>
+去東京玩，住宿居然可以省下 3000 元？
+
+這次教你怎麼用 trivago 找到便宜又高評價的飯店。
+
+留言「日本」，我把攻略傳給你！</div>
+        </div>
+
+        <div class="card" style="margin-top: 24px;">
+          <h3>Google 廣告與 SEO 關鍵字</h3>
+          <div class="grid grid-4" style="margin-top: 14px;">
+            <div class="card">日本住宿推薦</div>
+            <div class="card">東京便宜飯店</div>
+            <div class="card">大阪住宿推薦</div>
+            <div class="card">trivago 比價</div>
+            <div class="card">日本花火住宿</div>
+            <div class="card">東京高CP值住宿</div>
+            <div class="card">京都飯店推薦</div>
+            <div class="card">日本自由行住宿</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="upload">
+      <div class="container">
+        <div class="section-title">
+          <span>07 LAUNCH</span>
+          <h2>名單蒐集頁與銷售頁上架流程</h2>
+          <p>建議使用 WordPress + Elementor + MailerLite，以低成本完成網站、名單蒐集與 Email 自動化。</p>
+        </div>
+        <div class="grid grid-3">
+          <div class="card">
+            <h3>網站架構</h3>
+            <ul class="check">
+              <li>首頁</li>
+              <li>免費住宿攻略名單頁</li>
+              <li>東京住宿推薦頁</li>
+              <li>大阪住宿推薦頁</li>
+              <li>日本花火住宿攻略頁</li>
+              <li>SEO 部落格文章</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>技術工具</h3>
+            <ul class="check">
+              <li>網域：Namecheap / GoDaddy</li>
+              <li>主機：Hostinger / Bluehost</li>
+              <li>網站：WordPress</li>
+              <li>頁面編輯器：Elementor</li>
+              <li>Email：MailerLite / Brevo</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>聯盟導購</h3>
+            <ul class="check">
+              <li>申請 trivago Affiliate Program</li>
+              <li>或透過 CJ Affiliate / Travelpayouts</li>
+              <li>將聯盟連結放入 CTA 按鈕</li>
+              <li>追蹤點擊與轉換率</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="section-title" style="margin-top: 46px;">
+          <span>EXECUTION ROADMAP</span>
+          <h2>實際執行順序</h2>
+        </div>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="week">第1週</div>
+            <div>建立 IG、TikTok、品牌名稱，完成免費 Ebook 或影片腳本。</div>
+          </div>
+          <div class="timeline-item">
+            <div class="week">第2週</div>
+            <div>建立 WordPress 網站，上架名單蒐集頁，串接 MailerLite 自動寄信。</div>
+          </div>
+          <div class="timeline-item">
+            <div class="week">第3週</div>
+            <div>上架東京住宿頁、大阪住宿頁、日本花火住宿頁，放入 trivago 聯盟比價連結。</div>
+          </div>
+          <div class="timeline-item">
+            <div class="week">第4週</div>
+            <div>開始發布短影音、SEO文章與廣告投放，觀察名單轉換率與連結點擊率。</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="card highlight">
+          <h2>建議品牌定位</h2>
+          <p>因為你本身很適合結合日本、花火、攝影與旅遊攻略，所以建議定位為「日本花火旅遊品牌」。</p>
+          <br />
+          <div class="grid grid-4">
+            <div class="card">花火旅行研究室</div>
+            <div class="card">Hanabi Travel</div>
+            <div class="card">花火旅宿誌</div>
+            <div class="card">日本花火攻略局</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p><strong>trivago 自動化旅遊電商漏斗</strong>｜免費內容 × 名單蒐集 × Email 自動化 × 銷售頁 × 聯盟導購</p>
+  </footer>
+</body>
+</html>
